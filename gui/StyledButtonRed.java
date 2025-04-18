@@ -39,17 +39,16 @@ public class StyledButtonRed extends JButton{
         setFont(new Font("Arial", Font.BOLD, 19));
         setFocusPainted(false);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        setFocusable(false);
-        
-        // Hover effekt  
+        setFocusable(false);        
+       
         addMouseListener(new MouseAdapter() {  
         @Override
         public void mouseEntered(java.awt.event.MouseEvent evt) {  
-            setBackground(new Color(149, 6, 6)); // Kicsit világosabb sötétkék  
+            setBackground(new Color(149, 6, 6));
         }  
         @Override
         public void mouseExited(java.awt.event.MouseEvent evt) {  
-            setBackground(new Color(255, 3, 3)); // Vissza sötétkékre  
+            setBackground(new Color(255, 3, 3));
         }
         });
     }
