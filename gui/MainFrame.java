@@ -84,18 +84,15 @@ public class MainFrame extends JFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
         add(mainPanel);
-
-        // Panelek létrehozása
+        
         AuthPanel authPanel = new AuthPanel(supabase, perkStorage, this);
         LoginPanel loginPanel = new LoginPanel(this, authPanel);
         RegistrationPanel registrationPanel = new RegistrationPanel(supabase, this, authPanel);
-
-        // Panelek hozzáadása a CardLayout-hoz
+       
         mainPanel.add(authPanel, "AuthPanel");
         mainPanel.add(loginPanel, "LoginPanel");
         mainPanel.add(registrationPanel, "RegistrationPanel");
-
-        // A hitelesítési panel megjelenítése
+        
         cardLayout.show(mainPanel, "AuthPanel");
 
         setVisible(true);
@@ -106,18 +103,15 @@ public class MainFrame extends JFrame {
     }
 
     public void setUser(User user) throws ExecutionException, InterruptedException {
-        this.user = user;        
+        this.user = user;       
         
-        // Retrieve hive data
-        Map<String, Object> hiveData = supabase.getHiveData(user.getHiveId(), user.getUserId(), perkStorage); // Synchronous call       
-
-        // Check if hiveData is not null before updating the cache            
+        Map<String, Object> hiveData = supabase.getHiveData(user.getHiveId(), user.getUserId(), perkStorage);
+               
         if (hiveData != null) {
             // Update the cache
             setCachedHiveData(hiveData);
-        }        
-
-        // Create panels
+        }  
+        
         HiveHandlerPanel hiveHandlerPanel = new HiveHandlerPanel(perkStorage, this, supabase, user);
         LeaderMenuPanel leaderMenuPanel = new LeaderMenuPanel(this, supabase, perkStorage, user);
         MemberMenuPanel memberMenuPanel = new MemberMenuPanel(this, supabase, perkStorage, user);
@@ -125,22 +119,19 @@ public class MainFrame extends JFrame {
             String panelToShow = user.isLeader() ? "LeaderMenuPanel" : "MemberMenuPanel";
             showPanel(panelToShow);
         });
-
-        // Add panels to mainPanel
+       
         mainPanel.add(hiveHandlerPanel, "HiveHandlerPanel");
         mainPanel.add(leaderMenuPanel, "LeaderMenuPanel");
         mainPanel.add(memberMenuPanel, "MemberMenuPanel");
         mainPanel.add(hiveInfoPanel, "HiveInfoPanel");
-
-        // Switch to the appropriate panel based on the user's hive ID
+       
         String panelToShow = user.getHiveId().isEmpty() ? "HiveHandlerPanel" : (user.isLeader() ? "LeaderMenuPanel" : "MemberMenuPanel");
         showPanel(panelToShow);
     }
 
     public void updateCachedHiveMembers() {
-        try {
-            // Update the members' data
-            Map<String, Object> hiveData = supabase.getHiveData(user.getHiveId(), user.getUserId(), perkStorage); // Synchronous call
+        try {           
+            Map<String, Object> hiveData = supabase.getHiveData(user.getHiveId(), user.getUserId(), perkStorage);
 
             if (hiveData != null) {
                 setCachedHiveData(hiveData);
@@ -149,8 +140,7 @@ public class MainFrame extends JFrame {
             CustomDialog.showError("Failed to update cached Hive members: " + e.getMessage());
         }
     }
-
-    // Panel váltás
+   
     public void showPanel(String panelName) {
         if (panelName == null || panelName.isEmpty()) {
             CustomDialog.showError("Error: panelName is null or empty");
