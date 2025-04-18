@@ -8,11 +8,9 @@ public class User {
     private String hiveId;
     private boolean isLeader;
     private List<Perk> perks;
-
-    // Üres konstruktor szükséges a Firestore használatához
+   
     public User() {}
-
-    // Paraméterezett konstruktor
+   
     public User(String userId, String username, String hiveId, boolean isLeader, List<Perk> perks) {
         this.userId = userId;
         this.username = username;
@@ -20,8 +18,7 @@ public class User {
         this.isLeader = isLeader;
         this.perks = perks;
     }
-
-    // Getterek és Setterek
+   
     public String getUserId() {
         return userId;
     }
