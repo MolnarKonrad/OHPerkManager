@@ -3,23 +3,20 @@ package models;
 import java.util.List;
 
 public class Hive {
-    private String id;  // A Firestore dokumentum azonosítója
-    private String name;  // HIVE neve
-    private String leaderName;  // HIVE vezető neve
-    private List<String> members;  // A tagok listája
-
-    // Paraméter nélküli konstruktor (szükséges Firebase számára)
+    private String id;
+    private String name; 
+    private String leaderName;
+    private List<String> members;
+   
     public Hive() {}
-
-    // Paraméteres konstruktor a Hive létrehozásához
+    
     public Hive(String id, String name, String leaderName, List<String> members) {
         this.id = id;
         this.name = name;
         this.leaderName = leaderName;
         this.members = members;
     }
-
-    // Getterek és setterek
+   
     public String getId() {
         return id;
     }
