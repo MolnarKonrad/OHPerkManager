@@ -35,8 +35,7 @@ public class RegistrationPanel extends JPanelWithBackground {
         this.mainFrame = mainFrame;
         this.authPanel = authPanel;
         setLayout(new BorderLayout());
-
-        // 🔹 Tartalom panel létrehozása
+        
         JPanel contentPanel = new JPanel(new GridBagLayout());
         contentPanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -65,8 +64,7 @@ public class RegistrationPanel extends JPanelWithBackground {
 
         registerButton = new StyledButtonCyan("Register");
         backButton = new StyledButtonCyan("Back");
-
-        // 🔹 Gombok eseménykezelői
+       
         registerButton.addActionListener(e -> register(
                 usernameField.getText(), confirmUsernameField.getText(),
                 new String(passwordField.getPassword()), new String(confirmPasswordField.getPassword())
@@ -136,18 +134,15 @@ public class RegistrationPanel extends JPanelWithBackground {
         contentPanel.add(backButton, gbc);
 
         add(contentPanel, BorderLayout.CENTER);
-
-        // 🔹 Support gomb panel (jobb alsó sarokban)
+        
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
-
-        // User Guide gomb (bal oldalon)
+      
         StyledButtonCyan userGuideButton = new StyledButtonCyan("User Guide");
         userGuideButton.setFont(new Font("Arial", Font.BOLD, 17));
         userGuideButton.setPreferredSize(new Dimension(150, 50));
-        userGuideButton.addActionListener(e -> SupportUtils.openUserGuideLink());        
-
-        // Support gomb (jobb oldalon)
+        userGuideButton.addActionListener(e -> SupportUtils.openUserGuideLink());
+       
         StyledButtonCyan supportButton = new StyledButtonCyan("Support");
         supportButton.setFont(new Font("Arial", Font.BOLD, 17));
         supportButton.setPreferredSize(new Dimension(150, 50));
@@ -193,8 +188,7 @@ public class RegistrationPanel extends JPanelWithBackground {
         userMap.put("password", hashedPassword);
         userMap.put("hive_id", null);
         userMap.put("is_leader", false);
-
-        // Beszúrás a Supabase adatbázisba  
+       
         Boolean success = supabase.insertUser(userMap).get();
         if (!success) {
             throw new RuntimeException("Failed to insert user into Supabase.");
