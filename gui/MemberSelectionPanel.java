@@ -26,37 +26,32 @@ public class MemberSelectionPanel extends JPanelWithBackground {
         JLabel titleLabel = new JLabel("Select a Member", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 25));
         add(titleLabel, BorderLayout.NORTH);
-
-        // Külön panel a tagok számára, margóval   
+       
         membersPanel = new JPanelWithBackground();
         GridBagLayout gridBagLayout = new GridBagLayout();
         membersPanel.setLayout(gridBagLayout);
-        membersPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25)); // Margó a panel körül  
+        membersPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
 
         JScrollPane scrollPane = new JScrollPane(membersPanel);
         add(scrollPane, BorderLayout.CENTER);
-
-        // Maximális 16 tag (2 oszlop, 8 sor max)  
+       
         int maxMembers = Math.min(members.size(), 16);
 
         for (int i = 0; i < maxMembers; i++) {
             User member = members.get(i);
             StyledButtonCyan memberButton = new StyledButtonCyan(member.getUsername());
-
-            // Gomb méretek beállítása (most már használjuk a GridBagConstraints-et)  
+           
             memberButton.setPreferredSize(new Dimension(300, 90)); // Kívánt méret  
             memberButton.addActionListener(e -> {
                 onMemberSelected.actionPerformed(e);
             });
-
-            // GridBagConstraints beállítása  
+           
             GridBagConstraints gbc = new GridBagConstraints();
-            gbc.gridx = i % 2; // Elrendezés: 2 oszlop  
-            gbc.gridy = i / 2; // Sor  
-            gbc.insets = new Insets(10, 10, 10, 10); // Margó a gombok körül  
-            gbc.anchor = GridBagConstraints.CENTER; // Középre igazítás  
-
-            // Gombok hozzáadása a panelhez  
+            gbc.gridx = i % 2;
+            gbc.gridy = i / 2;
+            gbc.insets = new Insets(10, 10, 10, 10);
+            gbc.anchor = GridBagConstraints.CENTER;
+           
             membersPanel.add(memberButton, gbc);
         }
 
