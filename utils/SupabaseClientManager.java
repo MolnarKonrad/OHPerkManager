@@ -8,8 +8,7 @@ public class SupabaseClientManager {
 
     private static SupabaseClient instance;
 
-    private SupabaseClientManager() {
-        // Private constructor to prevent instantiation from outside
+    private SupabaseClientManager() {        
     }
 
     public static synchronized SupabaseClient getInstance() {
@@ -17,7 +16,7 @@ public class SupabaseClientManager {
             Properties properties = new Properties();
             try (InputStream input = SupabaseClientManager.class.getResourceAsStream("/config.properties")) {
                 if (input == null) {                    
-                    return null; // Handle the error as needed
+                    return null;
                 }
                 properties.load(input);
                 String projectRef = properties.getProperty("supabase.projectRef");
