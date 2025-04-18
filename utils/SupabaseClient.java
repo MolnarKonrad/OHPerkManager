@@ -16,15 +16,7 @@ public class SupabaseClient {
     private String apiKey;
     private HttpClient httpClient;
 
-    /**
-     * Konstruktor, amely beállítja a Supabase URL-t, API kulcsot és
-     * inicializálja a HttpClient-et.
-     *
-     * @param url A Supabase projekt URL-je, pl.
-     * "https://your-project.supabase.co"
-     * @param apiKey Az anon vagy service API kulcs
-     */
-    public SupabaseClient(String url, String apiKey) {
+   public SupabaseClient(String url, String apiKey) {
         this.url = url;
         this.apiKey = apiKey;
         this.httpClient = HttpClient.newBuilder()
