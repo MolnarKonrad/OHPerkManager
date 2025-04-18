@@ -41,15 +41,14 @@ public class StyledButtonCyan extends JButton{
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setFocusable(false);        
         
-        // Hover effekt  
         addMouseListener(new MouseAdapter() {  
         @Override
         public void mouseEntered(java.awt.event.MouseEvent evt) {  
-            setBackground(new Color(41, 124, 122)); // Kicsit világosabb sötétkék  
+            setBackground(new Color(41, 124, 122));
         }  
         @Override
         public void mouseExited(java.awt.event.MouseEvent evt) {  
-            setBackground(new Color(81, 203, 203)); // Vissza sötétkékre  
+            setBackground(new Color(81, 203, 203));
         }
         });
     }
