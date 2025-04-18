@@ -7,45 +7,37 @@ public class CustomPopupWindow {
 
     private JDialog dialog;
 
-    public CustomPopupWindow(String title, String message) {
-        // Create a new JDialog  
+    public CustomPopupWindow(String title, String message) {        
         dialog = new JDialog();
         dialog.setTitle(title);
         ImageIcon icon = new ImageIcon(getClass().getResource("/PM_icon.png"));       
         dialog.setIconImage(icon.getImage());
         dialog.setModal(true);
         dialog.setSize(500, 200);
-        dialog.setLocationRelativeTo(null); // Center the dialog  
-
-        // Create the main panel with the specified background color  
+        dialog.setLocationRelativeTo(null);
+       
         JPanel mainPanel = new JPanel();
-        mainPanel.setBackground(new Color(81, 203, 203)); // Main background color  
-        mainPanel.setLayout(new BorderLayout()); // Use BorderLayout  
-
-        // Create a JLabel for the message  
-        JLabel messageLabel = new JLabel(message, SwingConstants.CENTER); // Center-align the text  
-        messageLabel.setForeground(Color.BLACK); // Text color  
-        messageLabel.setFont(new Font("Arial", Font.BOLD, 18)); // Font style and size  
-
-        // Add the message label to the main panel  
-        mainPanel.add(messageLabel, BorderLayout.CENTER); // Add message label to the center of the panel  
-
-        // Add main panel to the dialog  
+        mainPanel.setBackground(new Color(81, 203, 203));
+        mainPanel.setLayout(new BorderLayout());
+       
+        JLabel messageLabel = new JLabel(message, SwingConstants.CENTER);
+        messageLabel.setForeground(Color.BLACK);
+        messageLabel.setFont(new Font("Arial", Font.BOLD, 18));
+       
+        mainPanel.add(messageLabel, BorderLayout.CENTER);
+       
         dialog.add(mainPanel);
-
-        // Create and add the OK button  
+       
         JButton okButton = new JButton("OK");
-        okButton.addActionListener(e -> dialog.dispose()); // Close dialog on button click  
-        mainPanel.add(okButton, BorderLayout.SOUTH); // Add button at the bottom  
-
-        // Optional: Set button properties  
-        okButton.setBackground(Color.CYAN); // Button background color  
-        okButton.setForeground(Color.BLACK); // Button text color  
-        okButton.setFont(new Font("Arial", Font.BOLD, 20)); // Button font
-        okButton.setPreferredSize(new Dimension(150, 50)); // Set the button size (width, height) 
+        okButton.addActionListener(e -> dialog.dispose());
+        mainPanel.add(okButton, BorderLayout.SOUTH);
+        
+        okButton.setBackground(Color.CYAN);
+        okButton.setForeground(Color.BLACK);
+        okButton.setFont(new Font("Arial", Font.BOLD, 20));
+        okButton.setPreferredSize(new Dimension(150, 50));
     }
-
-    // Method to display the dialog  
+   
     public void show() {
         dialog.setVisible(true);
     }
