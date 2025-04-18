@@ -19,15 +19,13 @@ public class LoginPanel extends JPanelWithBackground {
         this.mainFrame = mainFrame;
         this.authPanel = authPanel;
         setLayout(new BorderLayout());
-
-        // 🔹 Tartalom panel létrehozása
+       
         JPanel contentPanel = new JPanel(new GridBagLayout());
         contentPanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
-
-        // 🔹 Szövegmezők
+        
         usernameField = new JTextField(15);
         usernameField.setPreferredSize(new Dimension(250, 40));
         usernameField.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -37,16 +35,13 @@ public class LoginPanel extends JPanelWithBackground {
         passwordField.setPreferredSize(new Dimension(250, 40));
         passwordField.setFont(new Font("Arial", Font.PLAIN, 18));
         passwordField.setBackground(new Color(255, 255, 255, 200));
-
-        // 🔹 Gombok létrehozása
+       
         loginButton = new StyledButtonCyan("Login");
         backButton = new StyledButtonCyan("Back");
-
-        // 🔹 Gombok eseménykezelői
+       
         loginButton.addActionListener(e -> login(usernameField.getText(), new String(passwordField.getPassword())));
         backButton.addActionListener(e -> mainFrame.showPanel("AuthPanel"));
-
-        // 🔹 Szövegek és mezők elhelyezése
+       
         gbc.gridx = 0;
         gbc.gridy = 0;
         JLabel usernameLabel = new JLabel("Username:");
@@ -84,18 +79,15 @@ public class LoginPanel extends JPanelWithBackground {
         contentPanel.add(backButton, gbc);
 
         add(contentPanel, BorderLayout.CENTER);
-
-        // 🔹 Support gomb panel (jobb alsó sarokban)
+       
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
-
-        // User Guide gomb (bal oldalon)
+       
         StyledButtonCyan userGuideButton = new StyledButtonCyan("User Guide");
         userGuideButton.setFont(new Font("Arial", Font.BOLD, 17));
         userGuideButton.setPreferredSize(new Dimension(150, 50));
-        userGuideButton.addActionListener(e -> SupportUtils.openUserGuideLink());        
-
-        // Support gomb (jobb oldalon)
+        userGuideButton.addActionListener(e -> SupportUtils.openUserGuideLink());
+      
         StyledButtonCyan supportButton = new StyledButtonCyan("Support");
         supportButton.setFont(new Font("Arial", Font.BOLD, 17));
         supportButton.setPreferredSize(new Dimension(150, 50));
