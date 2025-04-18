@@ -26,29 +26,24 @@ public class AuthPanel extends JPanelWithBackground {
     private final SupabaseClient supabase;
     private final PerkStorage perkStorage;
 
-    // Konstruktor: A SupabaseClient példányt adod át, hasonlóan ahogy korábban a Firestore kapcsolatot adtad át
     public AuthPanel(SupabaseClient supabase, PerkStorage perkStorage, MainFrame mainFrame) {
         this.supabase = supabase;
         this.perkStorage = perkStorage;
         setLayout(new BorderLayout()); // Rugalmasabb elrendezés  
 
-        // ───── Alap tartalmi panel ─────
         JPanel contentPanel = new JPanel(new GridBagLayout());
         contentPanel.setOpaque(false); // Átlátszó háttér, hogy illeszkedjen a háttérhez
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(20, 20, 20, 20); // Párnázás  
-
-        // Gombok létrehozása  
+        
         loginButton = new StyledButtonCyan("Login");
         loginButton.setPreferredSize(new Dimension(300, 50));
         registerButton = new StyledButtonCyan("Register");
         registerButton.setPreferredSize(new Dimension(300, 50));
-
-        // Eseménykezelők  
+       
         loginButton.addActionListener(e -> mainFrame.showPanel("LoginPanel"));
         registerButton.addActionListener(e -> mainFrame.showPanel("RegistrationPanel"));
-
-        // Elek elhelyezése  
+         
         gbc.gridx = 0;
         gbc.gridy = 0;
         contentPanel.add(loginButton, gbc);
@@ -57,19 +52,16 @@ public class AuthPanel extends JPanelWithBackground {
         gbc.gridy = 1;
         contentPanel.add(registerButton, gbc);
 
-        add(contentPanel, BorderLayout.CENTER); // Tartalmat középre helyezzük
-
-        // ───── Support gomb a jobb alsó sarokban ─────
+        add(contentPanel, BorderLayout.CENTER);
+       
         JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setOpaque(false); // Átlátszó háttér
-
-        // User Guide gomb (bal oldalon)
+        bottomPanel.setOpaque(false);
+        
         StyledButtonCyan userGuideButton = new StyledButtonCyan("User Guide");
         userGuideButton.setFont(new Font("Arial", Font.BOLD, 17));
         userGuideButton.setPreferredSize(new Dimension(150, 50));
-        userGuideButton.addActionListener(e -> SupportUtils.openUserGuideLink());        
-
-        // Support gomb (jobb oldalon)
+        userGuideButton.addActionListener(e -> SupportUtils.openUserGuideLink());  
+        
         StyledButtonCyan supportButton = new StyledButtonCyan("Support");
         supportButton.setFont(new Font("Arial", Font.BOLD, 17));
         supportButton.setPreferredSize(new Dimension(150, 50));
@@ -79,11 +71,9 @@ public class AuthPanel extends JPanelWithBackground {
         bottomPanel.add(supportButton, BorderLayout.EAST);
         add(bottomPanel, BorderLayout.SOUTH);
     }
-
-    // authenticateUser metódus, amely a Supabase adatbázisból kérdezi le a felhasználót
+    
     public User authenticateUser(String username, String password) throws ExecutionException, InterruptedException {
-        try {
-            // Supabase REST API call to the "users" table, filtered by username
+        try {           
             String endpoint = "/rest/v1/users?username=eq." + username + "&select=*";
             String response = supabase.get(endpoint);
             JSONArray queryResult = new JSONArray(response);
@@ -95,8 +85,7 @@ public class AuthPanel extends JPanelWithBackground {
 
             JSONObject userObj = queryResult.getJSONObject(0);
             String storedPassword = userObj.optString("password", null);
-
-            // Password verification  
+           
             if (storedPassword != null && checkPassword(password, storedPassword)) {
                 boolean isLeader = userObj.optBoolean("is_leader", false);
                 String id = userObj.optString("id", "");
