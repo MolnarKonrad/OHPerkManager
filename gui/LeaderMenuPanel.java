@@ -39,19 +39,16 @@ public class LeaderMenuPanel extends JPanel {
         this.user = user;
 
         setLayout(new BorderLayout());
-
-        // 🔹 Üdvözlő panel
+        
         JPanel welcomePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         welcomePanel.setOpaque(true);
         welcomePanel.setBackground(new Color(81, 203, 203, 100));
         welcomeLabel = new JLabel("Welcome,  " + user.getUsername(), SwingConstants.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
         welcomeLabel.setOpaque(false);
-//        welcomeLabel.setBackground(new Color(81, 203, 203, 100));
         welcomePanel.add(welcomeLabel);
         add(welcomePanel, BorderLayout.NORTH);
-
-        // 🔹 Gombokat tartalmazó fő panel
+      
         JPanelWithBackground buttonPanel = new JPanelWithBackground(new GridBagLayout());
         setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -66,8 +63,7 @@ public class LeaderMenuPanel extends JPanel {
         transferLeadershipButton = new StyledButtonRed("Transfer Leadership");
         disbandHiveButton = new StyledButtonRed("Disband Hive");
         logoutButton = new StyledButtonRed("Logout");
-
-        // 🔹 Gombok eseménykezelői
+      
         generateInviteCodeButton.addActionListener(e -> generateInviteCode());
         addPerkToMemberButton.addActionListener(e -> openMemberSelectionPanel(true, false, false));
         showHiveDataButton.addActionListener(e -> openHiveInfoPanel());
@@ -85,8 +81,7 @@ public class LeaderMenuPanel extends JPanel {
             }
         });
         logoutButton.addActionListener(e -> mainFrame.showPanel("AuthPanel"));
-
-        // 🔹 Gombok méretezése        
+        
         Dimension Size = new Dimension(400, 70);        
         generateInviteCodeButton.setPreferredSize(Size);        
         addPerkToMemberButton.setPreferredSize(Size);        
@@ -118,8 +113,6 @@ public class LeaderMenuPanel extends JPanel {
         gbc.gridx = 1;
         buttonPanel.add(removeMemberButton, gbc);
 
-
-
         gbc.gridx = 2;
         buttonPanel.add(deleteAllPerksAtSelfButton, gbc);
 
@@ -138,14 +131,12 @@ public class LeaderMenuPanel extends JPanel {
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(true);
         bottomPanel.setBackground(new Color(81, 203, 203, 100));
-
-        // User Guide gomb (bal oldalon)
+        
         StyledButtonCyan userGuideButton = new StyledButtonCyan("User Guide");
         userGuideButton.setFont(new Font("Arial", Font.BOLD, 17));
         userGuideButton.setPreferredSize(new Dimension(150, 50));
-        userGuideButton.addActionListener(e -> SupportUtils.openUserGuideLink());        
-
-        // Support gomb (jobb oldalon)
+        userGuideButton.addActionListener(e -> SupportUtils.openUserGuideLink());
+       
         StyledButtonCyan supportButton = new StyledButtonCyan("Support");
         supportButton.setFont(new Font("Arial", Font.BOLD, 17));
         supportButton.setPreferredSize(new Dimension(150, 50));
@@ -157,15 +148,13 @@ public class LeaderMenuPanel extends JPanel {
     }
 
     private void openMemberSelectionPanel(boolean isAddingPerk, boolean isTransferingLeadership, boolean isReplacingPerk) {
-        try {
-            // 🔹 HELYI gyorsítótárból dolgozunk  
+        try {           
             List<User> members = mainFrame.getCachedHiveMembers();
 
             MemberSelectionPanel panel = new MemberSelectionPanel(members, (ActionEvent e) -> {
                 StyledButtonCyan source = (StyledButtonCyan) e.getSource();
                 String selectedMember = source.getText();
-
-                // 🔹 Keresés a helyi members listában  
+               
                 User selectedUser = members.stream()
                         .filter(altUser -> altUser.getUsername().equals(selectedMember))
                         .findFirst()
@@ -177,9 +166,7 @@ public class LeaderMenuPanel extends JPanel {
                 }
 
                 if (isTransferingLeadership) {
-                    supabase.selectNewLeaderByName(user.getHiveId(), selectedMember, mainFrame);                    
-
-                    // 🔹 Firestore és helyi gyorsítótár frissítése  
+                    supabase.selectNewLeaderByName(user.getHiveId(), selectedMember, mainFrame);                     
                     mainFrame.updateCachedHiveMembers();
                 } else if (isAddingPerk) {
                     openPerkSearchPanel(selectedUser, null);
@@ -188,9 +175,6 @@ public class LeaderMenuPanel extends JPanel {
                 } else {
                     try {
                         supabase.removeMemberFromHive(user.getHiveId(), selectedMember, mainFrame);
-
-                        // 🔹 Firestore és helyi gyorsítótár frissítése  
-//                        mainFrame.updateCachedHiveMembers();
                         mainFrame.showPanel("LeaderMenuPanel");
                     } catch (ExecutionException | InterruptedException ex) {
                         showError(ex);
@@ -208,8 +192,7 @@ public class LeaderMenuPanel extends JPanel {
     }
 
     private void openPerkSelectionPanel(User selectedUser) {
-        try {
-            // Lekérjük a helyi gyorsítótárból a tagok perkjeit
+        try {            
             Map<String, Object> cachedHiveData = mainFrame.getCachedHiveData();
             @SuppressWarnings("unchecked")
             Map<String, List<Perk>> memberPerksMap = (Map<String, List<Perk>>) cachedHiveData.get("memberPerks");
@@ -264,18 +247,12 @@ public class LeaderMenuPanel extends JPanel {
             showError(ex);
         }
     }
-
-    /**
-     * Formázza a perk nevet HTML-s sortördeléssel. A ":" után, illetve ha egy
-     * szó túl hosszú (például 12 karakter után) automatikusan sortördelést ad.
-     */
+    
     private String formatPerkNameForButton(String perkName) {
         if (perkName == null) {
             return "";
-        }
-        // Helyettesítjük a ":" karaktert ":" + <br>
-        String formatted = perkName.replace(":", ":<br>");
-        // Ha egy szó hosszabb 12 karakternél, akkor sortördelést adunk (ez egyszerűsített megoldás)
+        }       
+        String formatted = perkName.replace(":", ":<br>");        
         formatted = formatted.replaceAll("(?<=\\S{12})(?=\\S)", "<br>");
         return "<html>" + formatted + "</html>";
     }
@@ -285,16 +262,14 @@ public class LeaderMenuPanel extends JPanel {
             StyledButtonCyan source = (StyledButtonCyan) e.getSource();
             String selectedPerkName = source.getText();
             if (oldPerk == null) {
-                try {
-                    // Perk hozzáadása
+                try {                    
                     supabase.addPerkToMember(user.getHiveId(), selectedUser.getUsername(), selectedPerkName, mainFrame);
                 } catch (IOException ex) {
                     Logger.getLogger(LeaderMenuPanel.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(LeaderMenuPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } else {
-                // Perk csere
+            } else {               
                 supabase.replacePerkForMember(user.getHiveId(), selectedUser.getUserId(), oldPerk.getName(), selectedPerkName, mainFrame);
             }
             mainFrame.showPanel("LeaderMenuPanel");
@@ -307,23 +282,20 @@ public class LeaderMenuPanel extends JPanel {
     }
 
     private void openHiveInfoPanel() {
-        try {
-            // 🔹 A HIVE adatok lekérése a MainFrame-ből, NEM a Firestore-ból!  
-            String hiveName = mainFrame.getCachedHiveName(); // A MainFrame-ben eltárolt HIVE név  
-            List<User> members = mainFrame.getCachedHiveMembers(); // Előzőleg letöltött tagok listája  
-            Map<String, List<Perk>> memberPerks = mainFrame.getCachedMemberPerks(); // Tagok perkjei  
+        try {           
+            String hiveName = mainFrame.getCachedHiveName();
+            List<User> members = mainFrame.getCachedHiveMembers();
+            Map<String, List<Perk>> memberPerks = mainFrame.getCachedMemberPerks();
 
             if (hiveName == null || members == null || memberPerks == null) {
                 CustomDialog.showError("Hive data is missing. Please try again.");
                 return;
             }
-
-            // 🔹 Frissítjük a HiveInfoPanelt az előzőleg letöltött adatokkal  
+            
             HiveInfoPanel hiveInfoPanel = (HiveInfoPanel) mainFrame.getMainPanel().getComponent(6);
             hiveInfoPanel.updateData(members, memberPerks, perkStorage);
             hiveInfoPanel.updateHiveName(hiveName);
-
-            // 🔹 Átváltunk a HiveInfoPanel-re  
+            
             mainFrame.showPanel("HiveInfoPanel");
 
         } catch (Exception ex) {
