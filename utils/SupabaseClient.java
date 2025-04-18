@@ -32,17 +32,7 @@ public class SupabaseClient {
         return apiKey;
     }
 
-    /**
-     * Végrehajt egy GET kérést a Supabase REST API felé az adott endpoint-tal.
-     * A endpoint a Supabase URL-hez viszonyított útvonal, pl.
-     * "/rest/v1/users?username=eq.someUser&select=*"
-     *
-     * @param endpoint A lekérdezendő endpoint
-     * @return A válasz JSON szövegként
-     * @throws IOException Ha hálózati hiba történik
-     * @throws InterruptedException Ha a kérés megszakad
-     */
-    public String get(String endpoint) throws IOException, InterruptedException {
+   public String get(String endpoint) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url + endpoint))
                 .header("apikey", apiKey)
@@ -57,25 +47,10 @@ public class SupabaseClient {
     }
 
     public String from(String tableName) throws IOException, InterruptedException {
-
-    // Construct the endpoint for the specified table
         String endpoint = "/rest/v1/" + tableName;
-
-    // Return the response from the GET request to the specified table
         return get(endpoint);
     }
 
-    /**
-     * Beszúr egy rekordot a megadott táblába a Supabase REST API segítségével.
-     * A data map-et JSON objektummá alakítja, és POST kérést küld a Supabase
-     * endpointjára.
-     *
-     * @param table A beszúrandó tábla neve, pl. "users"
-     * @param data A beszúrandó adatokat tartalmazó Map (kulcs: oszlopnév,
-     * érték: érték)
-     * @return Egy CompletableFuture, amely true értéket ad vissza, ha a
-     * beszúrás sikeres (HTTP státuszkód 201), különben false.
-     */
     public CompletableFuture<Boolean> insertUser(Map<String, Object> data) {
         JSONObject json = new JSONObject(data);
         String endpoint = "/rest/v1/users";
