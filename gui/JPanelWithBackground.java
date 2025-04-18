@@ -9,21 +9,18 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;  
 
 public class JPanelWithBackground extends JPanel {  
-    private BufferedImage backgroundImage;  
-
-    // Konstruktőr, amely a layout-ot várja  
+    private BufferedImage backgroundImage;
+   
     public JPanelWithBackground(LayoutManager layout) {  
-        super(layout); // Hívja a szülő JPanel konstruktort a layout paraméterrel  
-        loadBackgroundImage(); // Háttérkép betöltése  
+        super(layout);
+        loadBackgroundImage();
     }  
-
-    // Alapértelmezett konstruktor  
+  
     public JPanelWithBackground() {
         super();
-        loadBackgroundImage(); // Háttérkép betöltése  
-    }    
-
-    // Háttérkép betöltésének metódusa  
+        loadBackgroundImage();
+    } 
+  
     private void loadBackgroundImage() {  
         try (InputStream inputStream = getClass().getResourceAsStream("/perk_manager_background.png")) {  
             if (inputStream != null) {  
@@ -32,16 +29,14 @@ public class JPanelWithBackground extends JPanel {
                 System.err.println("Background image not found.");  
             }  
         } catch (IOException e) {  
-            e.printStackTrace(); // Hiba kiírása, ha nem sikerült betölteni az ikont  
+            e.printStackTrace();
         }  
-    }  
-    
-    // A háttérkép rajzolása  
+    }    
+   
     @Override  
     protected void paintComponent(Graphics g) {  
-        super.paintComponent(g); // A szülő panel rajzolása  
-        if (backgroundImage != null) {  
-            // A háttérkép átméretezése az aktuális panel méretéhez  
+        super.paintComponent(g);
+        if (backgroundImage != null) {           
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);  
         }  
     }  
